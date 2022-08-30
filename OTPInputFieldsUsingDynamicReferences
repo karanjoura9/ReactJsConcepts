@@ -1,0 +1,70 @@
+import "./styles.css";
+import {useState, useRef} from 'react'
+import React from 'react'
+
+const refs =['otp1Ref','otp2Ref','otp3Ref','otp4Ref']
+
+export default function App() {
+
+const [otp1, setOtp1] = useState("");
+const [otp2, setOtp2] = useState("");
+const [otp3, setOtp3] = useState("");
+const [otp4, setOtp4] = useState("");
+
+const dynamicRefs = useRef(
+    refs.map((ref)=>{
+      return React.createRef(ref)
+    }));
+
+const handleChangeValue = (stateName, e)=>{
+
+      if(stateName==='1'){
+        setOtp1(e.target.value);
+      }
+      if(stateName==='2'){
+        setOtp2(e.target.value);
+      }
+      if(stateName==='3'){
+        setOtp3(e.target.value);
+      }
+      if(stateName==='4'){
+        setOtp4(e.target.value);
+      }
+        const next = e.target.tabIndex;
+        console.log(next)
+        if (next < 4) {
+           dynamicRefs.current[next].current.focus();
+       }
+}
+
+  return (
+    <div className="App" style={{'text-align':'center'}}>
+      <h1>OTP</h1>
+    <div style={{'display':'flex', 'justifyContent':'center'}}>
+    <input id="1" value={otp1} style={{'width':'20px'}} 
+    onChange={e=>handleChangeValue('1',e)}
+    maxLength={1}
+    tabIndex={1}
+     ref={dynamicRefs.current[0]} 
+    />
+    <input id="2" value={otp2} style={{'width':'20px'}}
+     onChange={e=>handleChangeValue('2',e)}
+     tabIndex={2}
+     maxLength={1}
+         ref={dynamicRefs.current[1]} />
+     <input id="3" value={otp3} style={{'width':'20px'}}
+     onChange={e=>handleChangeValue('3',e)}
+     tabIndex={3}
+     maxLength={1}
+     ref={dynamicRefs.current[2]}
+     />
+    <input id="4" value={otp4} style={{'width':'20px'}}
+     onChange={e=>handleChangeValue('4',e)}
+     tabIndex={4}
+     maxLength={1}
+     ref={dynamicRefs.current[3]}
+     /> 
+    </div>
+    </div>
+  );
+}
